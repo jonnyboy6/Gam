@@ -3,45 +3,51 @@
 		<canvas id = "screen" width="800" height="600">
 		</canvas>
 		<script>
-			class cube{
-				constructor(){
+			class octopus{
+				constructor(startCanvas, startx , starty ){
 					this.img = new Image();
 					this.img.src = 'octo.jpg';
-					this.x = 0;
-					this.y = 0;
+					this.x = startx || 0 ;
+					this.y = starty || 0;
 					this.dx = 5;
 					this.dy = 5;
 					this.width = 100;
 					this.height = 100;
+					this.context = startCanvas.getContext('2d');
+					this.canvas = startCanvas;
 				}
 				update(){
 					this.x+=this.dx;
 					this.y+=this.dy;
-					if(this.x > canvas.width-this.width || this.x < 0){
+					if(this.x > this.canvas.width-this.width || this.x < 0){
 						this.dx *=-1;
 					}
-					if(this.y > canvas.height-this.height || this.y < 0){
+					if(this.y > this.canvas.height-this.height || this.y < 0){
 						this.dy *=-1;
 					}
 				}
 				render(){
-					context.drawImage(this.img, this.x,this.y,100,100);
+					this.context.drawImage(this.img, this.x,this.y,this.width,this.height);
 				}
+			}
+			class Boss extends octopus{
+				
+			
 			}
 		
 		
 			var canvas = document.getElementById('screen');
 			var context = canvas.getContext('2d');
-			var a = 0;
-			var b = .1;
-			var octo = new cube();
+			
+			//var octo = new cube(canvas);
+			var boss = new Boss(canvas);
 			var octopi = [];
 			function update(){
 				
 				context.fillStyle = 'rgb(255,255,255)';
 				context.fillRect(0,0,canvas.width,canvas.height);
-				octo.update();
-				octo.render();
+				boss.update();
+				boss.render();
 				for(i = 0; i < octopi.length; i++){
 					octopi[i].update();
 					octopi[i].render();
@@ -49,7 +55,9 @@
 			}
 			setInterval(update,1000/30);
 			setInterval(function(){
-				octopi.push(new cube());
+				var rx = Math.random()*(canvas.width-100);
+				var ry = Math.random()*(canvas.height-100);
+				octopi.push(new octopus(canvas, rx, ry));
 			},1000);
 			
 		</script>
