@@ -3,19 +3,22 @@
 		<canvas id = "screen" width="800" height="600">
 		</canvas>
 		<script>
-			class octopus{
-				constructor(startCanvas, startx , starty ){
+			class Sprite{
+				constructor(startCanvas, startx , starty, dx, dy ){
 					this.img = new Image();
 					this.img.src = 'octo.jpg';
 					this.x = startx || 0 ;
 					this.y = starty || 0;
-					this.dx = 5;
-					this.dy = 5;
+					this.dx = dx || 0;
+					this.dy = dy || 0;
 					this.width = 100;
 					this.height = 100;
 					this.context = startCanvas.getContext('2d');
 					this.canvas = startCanvas;
 				}
+			}
+			class octopus extends Sprite{
+				
 				update(){
 					this.x+=this.dx;
 					this.y+=this.dy;
