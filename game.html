@@ -32,16 +32,71 @@
 			}
 			class Boss extends octopus{
 				
-			
+				update(){
+					if(down && this.y < this.canvas.height - this.height){
+						this.y += 5;
+						console.log("s");
+					}
+					if(up && this.y > 0){
+						this.y += -5;
+						console.log("w");
+					}
+					if(left && this.x >0){
+						this.x += -5;
+						console.log("a");
+					}
+					if(right && this.x < this.canvas.width -this.width ){
+						this.x += 5;
+						console.log("d");
+					}
+				}
+				render(){
+					this.context.drawImage(this.img, this.x,this.y,this.width,this.height);
+					this.context.fillStyle = 'rgba(255 , 0 ,0 ,0.5)';
+					this.context.fillRect(this.x,this.y,this.width,this.height);
+				}
 			}
 		
 		
 			var canvas = document.getElementById('screen');
 			var context = canvas.getContext('2d');
+			var up = false;
+			var down = false;
+			var right = false;
+			var left = false;
 			
 			//var octo = new cube(canvas);
-			var boss = new Boss(canvas);
+			var boss = new Boss(canvas,10,10);
+			document.addEventListener('keydown', (event)=>{
+					if(event.key == 'w'){
+						up = true;
+					}
+					if(event.key == 's'){
+						down = true;
+					}
+					if(event.key == 'a'){
+						left = true;
+					}
+					if(event.key == 'd'){
+						right = true;
+					}
+				});
+				document.addEventListener('keyup', (event)=>{
+					if(event.key == 'w'){
+						up = false;
+					}
+					if(event.key == 's'){
+						down = false;
+					}
+					if(event.key == 'a'){
+						left = false;
+					}
+					if(event.key == 'd'){
+						right = false;
+					}
+				});
 			var octopi = [];
+			
 			function update(){
 				
 				context.fillStyle = 'rgb(255,255,255)';
@@ -54,11 +109,11 @@
 				}
 			}
 			setInterval(update,1000/30);
-			setInterval(function(){
+			/*setInterval(function(){
 				var rx = Math.random()*(canvas.width-100);
 				var ry = Math.random()*(canvas.height-100);
 				octopi.push(new octopus(canvas, rx, ry));
-			},1000);
+			},1000);*/
 			
 		</script>
 	</body>
